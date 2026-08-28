@@ -4,11 +4,10 @@
 
 WebMCP lets an external agent such as Codex operate the marketplace through structured tools while the ordinary website remains the shared context. For example, Codex can:
 
-- Turn a natural-language request into a complex custom filter or personalized ranking, such as finding enthusiast-owned guitars under a budget with reassuring seller signals
-- Compare listing details, prices, locations, seller voice, and price stance across a set of results
-- Build and refine shortlists by saving items and organizing them into collections
-- Draft and send a focused question to a seller about condition, history, included items, or availability
-- Start a negotiation by sending an offer and continuing the conversation in the marketplace workflow
+- Turn a natural-language request into a complex custom filter or personalized ranking, such as finding enthusiast-owned guitars under a budget with reassuring seller signals. You tell your agent what you want, it makes sure you see it on the page.
+- Compare listing details, prices, locations, seller voice, and price stance across a set of results - you agent easily get the info and processes it.
+- Build and refine shortlists by saving items and organizing them into collections - just tell your agent what collection do you want.
+- Draft and send a focused question to a seller about condition, history, included items, or availability - agent can write multiple messages at once, continue converstations for you, negotiate.
 - Clear or revise a custom view as the user's priorities change
 
 Relay is a project to demonstrate WebMCP capabilities for marketplaces: a polished second-hand marketplace that remains a normal website for people while exposing structured actions to a user's external agent.
