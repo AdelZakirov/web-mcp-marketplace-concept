@@ -1,46 +1,60 @@
-# Marktplaats listing scraper
+# Relay — WebMCP marketplace demo
 
-Small Python + Playwright scraper for a list of public Marktplaats listing or search/category URLs. Search pages are expanded into unique `/v/...` listing URLs, then each detail page is visited. It extracts:
+Relay is a project to demonstrate WebMCP capabilities for marketplaces: a polished second-hand marketplace that remains a normal website for people while exposing structured actions to a user's external agent.
 
-- title, price, currency, category, and location
-- the listing description (the seller's item text)
-- basic seller name/profile text when visible
-- item attributes from definition lists, tables, JSON-LD, and visible vehicle feature lists (for example, cruise control)
-- gallery image URLs and downloaded image files
+The page is the shared context. An agent such as Codex can discover and operate marketplace tools for searching, filtering, saving, messaging, and making offers through WebMCP. There is no built-in assistant experience in the interface.
 
-Use it only for pages you are allowed to access. Keep the delay enabled, respect Marktplaats's terms and robots guidance, and do not use it to bypass login, rate limits, CAPTCHA, or other access controls.
+## What the demo includes
 
-## Setup
+- 120 curated listings across cars, guitars, and pianos
+- Seller-voice descriptions, price signals, locations, details, and source links
+- Search, category filtering, price filtering, and sorting
+- Listing details with favorites, collections, seller messages, and offers
+- Intentionally empty categories for laptops, bikes, books, and kids' items
+- A quiet footer explanation of the WebMCP connection
+
+## WebMCP tools
+
+The app registers marketplace actions through `document.modelContext.registerTool` when the browser provides a WebMCP model context.
+
+Available tools include:
+
+- `search_listings` and `get_listing`
+- `apply_custom_view` and `clear_custom_view`
+- `set_favorite`, `create_collection`, `add_to_collection`, and `get_collection`
+- `send_message`, `get_conversation`, and `make_offer`
+
+These tools update the same interface a person sees, so external agent actions remain visible and reviewable in the marketplace UI.
+
+## Run locally
+
+Install the frontend dependencies:
 
 ```bash
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements.txt
-.venv/bin/python -m playwright install chromium
+npm install
 ```
 
-## Run
-
-Add one public listing or search/category URL per line to [`urls.txt`](urls.txt), then run:
+Start the development server:
 
 ```bash
-.venv/bin/python scrape_marktplaats.py --urls urls.txt --output output
+npm run dev
 ```
 
-For a large result page, cap the number of detail pages while testing:
+Create a production build:
 
 ```bash
-.venv/bin/python scrape_marktplaats.py --urls urls.txt --output output --max-items 10
+npm run build
 ```
 
-Useful options:
+## Project structure
 
-```text
---delay 2.0       Wait two seconds between listing pages
---headful         Show Chromium while the script runs
---timeout 45000   Use a 45-second page timeout
---max-items 10    Scrape at most 10 discovered listings; 0 means all
-```
+- `src/main.tsx` — React app, marketplace interactions, and WebMCP tool registration
+- `src/styles.css` — visual system and responsive layout
+- `src/data/listings.json` — listing data used by the app
+- `public/images/listings/` — listing photography
+- `public/images/background/` — marketplace background imagery
+- `public/images/inspiration/` — visual reference assets
 
-The result is written to `output/items.json`. Images are written to `output/images/` and referenced from each item's `images` array. Failed URLs remain in `items.json` as objects containing `url` and `error`.
+## Data boundaries
 
-The DOM changes on marketplaces from time to time. The script uses semantic selectors, JSON-LD, and fallback extraction, but a changed page can still require selector updates.
+The demo uses a fixed local dataset and local image assets. It does not create additional listings, connect to a live marketplace, or include a built-in conversational assistant.
