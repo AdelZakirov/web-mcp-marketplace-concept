@@ -1,0 +1,9 @@
+output/
+__pycache__/
+node_modules/
+dist/
+scrape_marktplaats.py
+urls.txt
+scripts/
+.DS_Store
+venv/
