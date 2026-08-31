@@ -34,7 +34,17 @@ Available tools include:
 - `set_favorite`, `create_collection`, `add_to_collection`, and `get_collection`
 - `send_message`, `get_conversation`, and `make_offer`
 
-These tools update the same interface a person sees, so external agent actions remain visible and reviewable in the marketplace UI.
+These tools update the same interface a person sees, so external agent actions remain visible and reviewable in the marketplace UI. Every tool call also enters a visible WebMCP activity lifecycle:
+
+- Search and custom-view tools open the marketplace results and reflect their query, filters, sorting, ranking, or annotations.
+- Intermediate listing reads stay in the background and appear only in the activity dock, avoiding modal churn while the agent evaluates candidates. Explicit comparisons still open the comparison surface.
+- Favorite and collection actions open the affected Saved section.
+- Conversation reads, messages, and offers open Messages. A user request to write or send is treated as authorization: direct agent messages and offer notes stream through the composer and send one by one without a second confirmation.
+- Seller replies are intentionally asynchronous: sellers pause, visibly type, and then answer from varied intent-aware response pools instead of returning one immediate canned response.
+- A compact activity dock shows the current action and recent accepted actions. It can be hidden and restored, and the preference persists.
+- Read and organization calls acknowledge immediately. Message and offer calls remain active until their ordered browser playback finishes, ensuring the user sees every streamed draft and sequential send.
+
+The integration does not use browser clicking or DOM automation. External actions enter through tools registered with `document.modelContext`, and those tool handlers deliberately drive the visible React UI.
 
 ## Run locally
 
