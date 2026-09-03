@@ -29,13 +29,14 @@ The app registers marketplace actions through `document.modelContext.registerToo
 
 Available tools include:
 
-- `search_listings` and `get_listing`
+- `search_listings` and batched `get_listings`
 - `apply_custom_view` and `clear_custom_view`
 - `set_favorite`, `create_collection`, `add_to_collection`, and `get_collection`
 - `send_message`, `get_conversation`, and `make_offer`
 
 These tools update the same interface a person sees, so external agent actions remain visible and reviewable in the marketplace UI. Every tool call also enters a visible WebMCP activity lifecycle:
 
+- Search can return compact results or include descriptions, highlights, and detailed fields in the same call. When more records are needed, `get_listings` reads up to 20 listings at once.
 - Search and custom-view tools open the marketplace results and reflect their query, filters, sorting, ranking, or annotations.
 - Intermediate listing reads stay in the background and appear only in the activity dock, avoiding modal churn while the agent evaluates candidates. Explicit comparisons still open the comparison surface.
 - Favorite and collection actions open the affected Saved section.
@@ -44,7 +45,7 @@ These tools update the same interface a person sees, so external agent actions r
 - A compact activity dock shows the current action and recent accepted actions. It can be hidden and restored, and the preference persists.
 - Read and organization calls acknowledge immediately. Message and offer calls remain active until their ordered browser playback finishes, ensuring the user sees every streamed draft and sequential send.
 
-The integration does not use browser clicking or DOM automation. External actions enter through tools registered with `document.modelContext`, and those tool handlers deliberately drive the visible React UI.
+The integration does not use browser clicking or DOM automation. External actions enter through tools registered with `document.modelContext`, and those tool handlers deliberately drive the visible React UI. Lightweight proxy tools register before React mounts; React binds them to the live application handlers during layout initialization.
 
 ## Run locally
 
